@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,6 +9,10 @@ public class UIManager : MonoBehaviour {
 	public Slider hpBar;
 	public Text hpText;
 	public Player Player;
+
+    public ToggleGroup spellPanel;
+    private Toggle[] toggles;
+
 	// Use this for initialization
 	private static bool UIExists;
 	
@@ -18,6 +23,12 @@ public class UIManager : MonoBehaviour {
 		}
 		else
 			Destroy(gameObject);
+
+        toggles = spellPanel.GetComponentsInChildren<Toggle>();
+        for (int i = 0; i < toggles.Length; i++) {
+            int newi = i;
+            toggles[i].onValueChanged.AddListener((bool state) => spellToggleChanged(state, newi));
+        }
 	}
 	
 	// Update is called once per frame
@@ -26,4 +37,17 @@ public class UIManager : MonoBehaviour {
 		hpBar.value = Player.hp;
 		hpText.text = "HP: " + Player.hp + "/" + Player.maxHP;
 	}
+
+    void spellToggleChanged(bool state, int toggle) {
+        SpellButtonController controller = toggles[toggle].GetComponent<SpellButtonController>();
+        string spellText = controller.GetSpellText();
+        int spellID = controller.GetSpellID();
+        if (state == true)
+        {
+            Debug.Log("Spell was selected: " + spellText);
+        }
+        else {
+            Debug.Log("Spell was unselected: " + spellText);
+        }
+    }
 }
