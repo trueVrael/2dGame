@@ -29,6 +29,7 @@ public class SpellButtonController : MonoBehaviour {
         }
 
         spellImage.sprite = sprite.sprite;
+        spellImage.preserveAspect = true;
     }
 
     public int GetSpellID() { return spellID; }
