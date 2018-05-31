@@ -11,8 +11,10 @@ public class ChangeSpellsPanelManager : MonoBehaviour {
 
     private bool isActive = false;
 
+    private GameObject CurrentPanel;
     private int CurrentI;
     private List<int> spells;
+
 
 	// Use this for initialization
 	void Start () {
@@ -30,6 +32,9 @@ public class ChangeSpellsPanelManager : MonoBehaviour {
 	void Update () {
         if (!added) {
             AddSpell(0); AddSpell(0);
+            AddSpell(0); AddSpell(0);
+            AddSpell(0); AddSpell(0);
+            AddSpell(0); AddSpell(0);
             added = true;
         }
 	}
@@ -41,11 +46,21 @@ public class ChangeSpellsPanelManager : MonoBehaviour {
 
     public void AddSpell(int spellID) {
         spells.Add(spellID);
+        if (CurrentI % 3 == 0) {
+            GameObject newPanel = new GameObject("Panel", typeof(RectTransform));
+            HorizontalLayoutGroup hlg = newPanel.AddComponent<HorizontalLayoutGroup>();
+            hlg.childForceExpandHeight = hlg.childForceExpandWidth = hlg.childControlHeight = hlg.childControlWidth = false;
+            ContentSizeFitter csf = newPanel.AddComponent<ContentSizeFitter>();
+            csf.horizontalFit = ContentSizeFitter.FitMode.MinSize;
+            csf.verticalFit = ContentSizeFitter.FitMode.MinSize;
+            newPanel.transform.SetParent(transform);
+            CurrentPanel = newPanel;
+        }
         GameObject newbutton = Instantiate(changeSpellButtonPrefab) as GameObject;
         Image image = newbutton.transform.GetChild(0).GetComponent<Image>();
         image.sprite = player.Spells[spellID].GetComponentInChildren<SpriteRenderer>().sprite;
         image.preserveAspect = true;
-        newbutton.transform.SetParent(transform);
+        newbutton.transform.SetParent(CurrentPanel.transform);
 
         int newI = CurrentI;
         CurrentI++;
