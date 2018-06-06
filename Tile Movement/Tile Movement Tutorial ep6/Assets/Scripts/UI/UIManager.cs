@@ -44,6 +44,7 @@ public class UIManager : MonoBehaviour {
 	void Update () {
         if (FirstFrame)
         {
+            AddSpell(0);
             SpellBook.SetActive(SpellBookIsEnabled);
             FirstFrame = false;
         }
@@ -72,17 +73,33 @@ public class UIManager : MonoBehaviour {
         toggles[spellID].GetComponent<SpellButtonController>().SetSpell(spellID);
     }
 
-    void spellToggleChanged(bool state, int toggle) {
+    private bool IgnoreEvent = false;
+    public void SpellUsed()
+    {
+        if (!spellPanel.AnyTogglesOn()) return;
+        IgnoreEvent = true;
+        spellPanel.ActiveToggles().FirstOrDefault<Toggle>().isOn = false;
+    }
+
+    public void spellToggleChanged(bool state, int toggle) {
+        if (IgnoreEvent)
+        {
+            IgnoreEvent = false;
+            return;
+        }
         SpellButtonController controller = toggles[toggle].GetComponent<SpellButtonController>();
         string spellText = controller.GetSpellText();
         int spellID = controller.GetSpellID();
+        if (spellID == -1) return;
         if (state == true)
         {
             Debug.Log("Spell was selected: " + spellText);
+            Player.CheckDirection(spellText);
         }
         else
         {
             Debug.Log("Spell was unselected: " + spellText);
+            Player.DestroyTiles();
         }
     }
 }

@@ -11,6 +11,7 @@ TagManager:
   - Spell
   - Icon
   - Direction
+  - Canvas
   layers:
   - Default
   - TransparentFX
