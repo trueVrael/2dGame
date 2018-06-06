@@ -13,23 +13,35 @@ public class SpellButtonController : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+
+        spellID = -1;
+        spellText = "";
 	}
 	
 	// Update is called once per frame
 	void Update () {
-        SetSpell(0);
 	}
 
     private void UpdateSpellImage() {
+        if (spellID == -1) return;
         SpriteRenderer sprite = player.Spells[spellID].GetComponentInChildren<SpriteRenderer>();
-        if (sprite == null) {
+        if (sprite == null)
+        {
             Debug.Log("No sprite image in spell");
             spellImage.sprite = null;
+            Color color = spellImage.color;
+            color.a = 0;
+            spellImage.color = color;
             return;
         }
-
-        spellImage.sprite = sprite.sprite;
-        spellImage.preserveAspect = true;
+        else
+        {
+            spellImage.sprite = sprite.sprite;
+            spellImage.preserveAspect = true;
+            Color color = spellImage.color;
+            color.a = 1;
+            spellImage.color = color;
+        }
     }
 
     public int GetSpellID() { return spellID; }

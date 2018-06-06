@@ -11,19 +11,12 @@ public class SpellBookController : MonoBehaviour
     public Button NextPageButton;
 
     private int CurrentPage;
-    private List<int> spells;
+    private List<int> spells = new List<int>();
 
     // Use this for initialization
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
-
-        spells = new List<int>
-        {
-            0,
-            0,
-            0
-        };
 
         CurrentPage = 0;
 
@@ -93,6 +86,13 @@ public class SpellBookController : MonoBehaviour
 
     public void AddSpell(int spellID)
     {
-        spells.Add(spellID);
+        if (spells.Count == 0)
+        {
+            spells.Add(spellID);
+        }
+        else
+        {
+            spells.Insert(0, spellID);
+        }
     }
 }

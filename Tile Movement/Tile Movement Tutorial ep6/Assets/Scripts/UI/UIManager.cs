@@ -11,6 +11,7 @@ public class UIManager : MonoBehaviour {
 	public Player Player;
 
     public ToggleGroup spellPanel;
+    private readonly string[] ToggleKeys = { "SpellLeft", "SpellUp", "SpellDown", "SpellRight"};
     private Toggle[] toggles;
 
     public Button enableButton;
@@ -37,12 +38,26 @@ public class UIManager : MonoBehaviour {
         enableButton.onClick.AddListener(EnableButtonPressed);
         SpellBookIsEnabled = false;
 	}
-	
-	// Update is called once per frame
+
+    // Update is called once per frame
+    private bool FirstFrame = true;
 	void Update () {
+        if (FirstFrame)
+        {
+            SpellBook.SetActive(SpellBookIsEnabled);
+            FirstFrame = false;
+        }
 		hpBar.maxValue = Player.maxHP;
 		hpBar.value = Player.hp;
 		hpText.text = "HP: " + Player.hp + "/" + Player.maxHP;
+
+        for (int i = 0; i < 4; i++)
+        {
+            if (Input.GetButtonUp(ToggleKeys[i]))
+            {
+                toggles[i].isOn = !toggles[i].isOn;
+            }
+        }
 	}
 
     public void EnableButtonPressed()
@@ -50,6 +65,12 @@ public class UIManager : MonoBehaviour {
         SpellBookIsEnabled = !SpellBookIsEnabled;
         SpellBook.SetActive(SpellBookIsEnabled);
     } 
+
+    public void AddSpell(int spellID)
+    {
+        SpellBook.AddSpell(spellID);
+        toggles[spellID].GetComponent<SpellButtonController>().SetSpell(spellID);
+    }
 
     void spellToggleChanged(bool state, int toggle) {
         SpellButtonController controller = toggles[toggle].GetComponent<SpellButtonController>();
@@ -59,7 +80,8 @@ public class UIManager : MonoBehaviour {
         {
             Debug.Log("Spell was selected: " + spellText);
         }
-        else {
+        else
+        {
             Debug.Log("Spell was unselected: " + spellText);
         }
     }
