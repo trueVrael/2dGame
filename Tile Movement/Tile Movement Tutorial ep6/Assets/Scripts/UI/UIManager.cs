@@ -13,6 +13,10 @@ public class UIManager : MonoBehaviour {
     public ToggleGroup spellPanel;
     private Toggle[] toggles;
 
+    public Button enableButton;
+    private bool SpellBookIsEnabled;
+    public SpellBookController SpellBook;
+
 	// Use this for initialization
 	private static bool UIExists;
 	
@@ -29,6 +33,9 @@ public class UIManager : MonoBehaviour {
             int newi = i;
             toggles[i].onValueChanged.AddListener((bool state) => spellToggleChanged(state, newi));
         }
+
+        enableButton.onClick.AddListener(EnableButtonPressed);
+        SpellBookIsEnabled = false;
 	}
 	
 	// Update is called once per frame
@@ -37,6 +44,12 @@ public class UIManager : MonoBehaviour {
 		hpBar.value = Player.hp;
 		hpText.text = "HP: " + Player.hp + "/" + Player.maxHP;
 	}
+
+    public void EnableButtonPressed()
+    {
+        SpellBookIsEnabled = !SpellBookIsEnabled;
+        SpellBook.SetActive(SpellBookIsEnabled);
+    } 
 
     void spellToggleChanged(bool state, int toggle) {
         SpellButtonController controller = toggles[toggle].GetComponent<SpellButtonController>();

@@ -1,0 +1,98 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class SpellBookController : MonoBehaviour
+{
+    private Player player;
+    public GameObject[] SpellInfoPanels;
+    public Button PreviousPageButton;
+    public Button NextPageButton;
+
+    private int CurrentPage;
+    private List<int> spells;
+
+    // Use this for initialization
+    void Start()
+    {
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+
+        spells = new List<int>
+        {
+            0,
+            0,
+            0
+        };
+
+        CurrentPage = 0;
+
+        PreviousPageButton.onClick.AddListener(PreviousPage);
+        NextPageButton.onClick.AddListener(NextPage);
+
+        RefreshPages();
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+    }
+
+    private void RefreshPages()
+    {
+        for (int i = 0; i < 2; i++)
+        {
+            if (spells.Count > CurrentPage * 2 + i)
+            {
+                Image spellImage = SpellInfoPanels[i].GetComponentInChildren<Image>();
+                spellImage.sprite = player.Spells[spells[CurrentPage * 2 + i]].GetComponentInChildren<SpriteRenderer>().sprite;
+                spellImage.preserveAspect = true;
+                Color color = spellImage.color;
+                color.a = 1;
+                spellImage.color = color;
+
+                Text spellText = SpellInfoPanels[i].GetComponentInChildren<Text>();
+                spellText.text = "Here should go spell text\nAnd some description";
+            }
+            else
+            {
+                Image spellImage = SpellInfoPanels[i].GetComponentInChildren<Image>();
+                spellImage.sprite = null;
+                Color color = spellImage.color;
+                color.a = 0;
+                spellImage.color = color;
+                SpellInfoPanels[i].GetComponentInChildren<Text>().text = "";
+            }
+        }
+    }
+
+    public void NextPage()
+    {
+        if (CurrentPage < (spells.Count - 1) / 2)
+        {
+            CurrentPage++;
+            RefreshPages();
+        }
+    }
+
+    public void PreviousPage()
+    {
+        if (CurrentPage > 0)
+        {
+            CurrentPage--;
+            RefreshPages();
+        }
+    }
+
+    public void SetActive(bool toState)
+    {
+        gameObject.SetActive(toState);
+
+        RefreshPages();
+    }
+
+    public void AddSpell(int spellID)
+    {
+        spells.Add(spellID);
+    }
+}
