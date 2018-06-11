@@ -12,6 +12,7 @@ public class Player : MovingObject
 		public int hp;                           //Used to store player food points total during level.
 		public int maxHP;
         private bool spellUsed = false;
+		public bool[] avaibleSpells;
         private string spellName;
         private Collider2D spellCollider;
         private SpriteRenderer spellSprite;
@@ -27,7 +28,7 @@ public class Player : MovingObject
 		{
 			//Get a component reference to the Player's animator component
 			animator = GetComponent<Animator>();
-			
+			avaibleSpells = new bool[] { false, false, false, false }; 
 			//Get the current food point total stored in GameManager.instance between levels.
 			hp = GameManager.instance.playerHP;		
 			this.x = 1;
@@ -184,10 +185,12 @@ public class Player : MovingObject
 
         public void FireBall(Transform spellTransform)
         {
-        Instantiate(Spells[0], spellTransform.position, spellTransform.rotation);
+			if(this.avaibleSpells[0] == true){
+				Instantiate(Spells[0], spellTransform.position, spellTransform.rotation);
 
-        spellUsed = false;
-        GameManager.instance.playersTurn = false;
+				spellUsed = false;
+				GameManager.instance.playersTurn = false;
+			}
         }
 
  

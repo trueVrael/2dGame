@@ -22,7 +22,7 @@ public class SpellButtonController : MonoBehaviour {
 	void Update () {
 	}
 
-    private void UpdateSpellImage() {
+    public void UpdateSpellImage() {
         if (spellID == -1) return;
         SpriteRenderer sprite = player.Spells[spellID].GetComponentInChildren<SpriteRenderer>();
         if (sprite == null)
@@ -36,11 +36,13 @@ public class SpellButtonController : MonoBehaviour {
         }
         else
         {
-            spellImage.sprite = sprite.sprite;
-            spellImage.preserveAspect = true;
-            Color color = spellImage.color;
-            color.a = 1;
-            spellImage.color = color;
+			//if(player.avaibleSpells[spellID] == true){
+				spellImage.sprite = sprite.sprite;
+				spellImage.preserveAspect = true;
+				Color color = spellImage.color;
+				color.a = 1;
+				spellImage.color = color;
+			//}
         }
     }
 
