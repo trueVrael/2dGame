@@ -226,6 +226,8 @@ public class Player : MovingObject
         {
             Destroy(tiles[i]);
         }
+
+        GameObject.FindGameObjectWithTag("Canvas").GetComponent<UIManager>().SpellUsed();
     }
 
     public void CheckDirection(string x)
