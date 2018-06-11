@@ -30,8 +30,8 @@ public class Player : MovingObject
 			
 			//Get the current food point total stored in GameManager.instance between levels.
 			hp = GameManager.instance.playerHP;		
-			this.x = 5;
-			this.y = 5;
+			this.x = 1;
+			this.y = -1;
 			//Call the Start function of the MovingObject base class.
 			base.Start ();
 			maxHP=5;

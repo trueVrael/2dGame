@@ -12,8 +12,8 @@ public class TileMap : MonoBehaviour {
 	Node[,] graph;
 	public GameObject exit;	
 
-	int mapSizeX = 10;
-	int mapSizeY = 10;
+	int mapSizeX = 13;
+	int mapSizeY = 11;
 
 	void Start() {
 		// Setup the selectedUnit's variable
@@ -32,22 +32,68 @@ public class TileMap : MonoBehaviour {
 		
 		int x,y;
 		
-		// Initialize our map tiles to be grass
 		for(x=0; x < mapSizeX; x++) {
-			for(y=0; y < mapSizeX; y++) {
-				tiles[x,y] = 0;
+			for(y=0; y < mapSizeY; y++) {
+					tiles[x,y] = -1;
 			}
 		}
-
-		// Make a big swamp area
-		for(x=3; x <= 5; x++) {
-			for(y=0; y < 4; y++) {
-				tiles[x,y] = 1;
+		// Initialize our map tiles to be grass
+		for(x=0; x < mapSizeX; x++) {
+			for(y=0; y < mapSizeY; y++) {
+				if(x==0){
+					if(y>0 && y<6)
+						tiles[x,y] = 2;
+				}
+				else if	(x==1){
+					if(y==0 || y==1 || (y>=5 && y<=7))
+						tiles[x,y] = 2;
+				}
+				else if	(x==2){
+					if(y==7)
+						tiles[x,y] = 2;
+				}
+				else if	(x==3){
+					if(y==0 || y==1 || y==5 || y==7)
+						tiles[x,y] = 2;
+				}
+				
+				else if	(x==4){
+					if((y>0 && y<6) || (y>=7 && y<=9))
+						tiles[x,y] = 2;
+				}
+				else if	(x==5 || x==6){
+					if((y>1 && y<5) || (y>=8 && y<=9))
+						tiles[x,y] = 2;
+				}
+				else if	(x==7){
+					if((y>1 && y<4) || (y>=7 && y<=9))
+						tiles[x,y] = 2;
+				}
+				else if	(x==8){
+					if((y>1 && y<5) || (y>=6 && y<=9))
+						tiles[x,y] = 2;
+				}
+				else if	(x==9){
+					if((y>1 && y<4) || (y>=7 && y<=10))
+						tiles[x,y] = 2;
+				}
+				else if	(x==10){
+					if((y>1 && y<4))
+						tiles[x,y] = 2;
+				}
+				else if	(x==11){
+					if(y==2 || y==9 || y==10)
+						tiles[x,y] = 2;
+				}
+				else if	(x==12){
+					if((y>1 && y<10))
+						tiles[x,y] = 2;
+				}
 			}
 		}
 		
 		// Let's make a u-shaped mountain range
-		tiles[4, 4] = 2;
+	/*	tiles[4, 4] = 2;
 		tiles[5, 4] = 2;
 		tiles[6, 4] = 2;
 		tiles[7, 4] = 2;
@@ -56,13 +102,15 @@ public class TileMap : MonoBehaviour {
 		tiles[4, 5] = 2;
 		tiles[4, 6] = 2;
 		tiles[8, 5] = 2;
-		tiles[8, 6] = 2;
+		tiles[8, 6] = 2;*/
 
 		//enemies
-		Vector3 pos = new Vector3(1.5f, 1.5f, 0);
+		Vector3 pos = new Vector3(9.5f, 3.5f, 0);
 		Instantiate(enemyTiles[0], pos, Quaternion.identity);
+		Vector3 pos2 = new Vector3(10.5f, 7.5f, 0);
+		Instantiate(enemyTiles[0], pos2, Quaternion.identity);
 		//exit
-		Instantiate (exit, new Vector3 (8.5f, 8.5f, 0f), Quaternion.identity);
+		Instantiate (exit, new Vector3 (9.5f, 9.5f, 0f), Quaternion.identity);
 	}
 
 	public float CostToEnterTile(int sourceX, int sourceY, int targetX, int targetY) {
@@ -90,7 +138,7 @@ public class TileMap : MonoBehaviour {
 
 		// Initialize a Node for each spot in the array
 		for(int x=0; x < mapSizeX; x++) {
-			for(int y=0; y < mapSizeX; y++) {
+			for(int y=0; y < mapSizeY; y++) {
 				graph[x,y] = new Node();
 				graph[x,y].x = x;
 				graph[x,y].y = y;
@@ -99,7 +147,7 @@ public class TileMap : MonoBehaviour {
 
 		// Now that all the nodes exist, calculate their neighbours
 		for(int x=0; x < mapSizeX; x++) {
-			for(int y=0; y < mapSizeX; y++) {
+			for(int y=0; y < mapSizeY; y++) {
 
 				// This is the 4-way connection version:
 				if(x > 0)
@@ -144,14 +192,16 @@ public class TileMap : MonoBehaviour {
 
 	void GenerateMapVisual() {
 		for(int x=0; x < mapSizeX; x++) {
-			for(int y=0; y < mapSizeX; y++) {
-				TileType tt = tileTypes[ tiles[x,y] ];
-				GameObject go = (GameObject)Instantiate( tt.tileVisualPrefab, new Vector3(x+0.5f, y+0.5f, 0.5f), Quaternion.identity );
+			for(int y=0; y < mapSizeY; y++) {
+				if(tiles[x,y] != -1){
+					TileType tt = tileTypes[ tiles[x,y] ];
+					GameObject go = (GameObject)Instantiate( tt.tileVisualPrefab, new Vector3(x-0.5f, y-0.5f, 0.5f), Quaternion.identity );
 
-				ClickableTile ct = go.GetComponent<ClickableTile>();
-				ct.tileX = x;
-				ct.tileY = y;
-				ct.map = this;
+					ClickableTile ct = go.GetComponent<ClickableTile>();
+					ct.tileX = x;
+					ct.tileY = y;
+					ct.map = this;
+				}
 			}
 		}
 	}
