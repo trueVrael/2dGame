@@ -6,11 +6,12 @@ public class ScrollOnTouch : MonoBehaviour {
 
     public int spellNumber;
     private Player player;
-	//private SpellButtonController spell;	
+    private UIManager UIManager;
+
 	// Use this for initialization
 	void Start () {
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
-	//	spell = GetComponent<SpellButtonController>();
+        UIManager = GameObject.FindGameObjectWithTag("Canvas").GetComponent<UIManager>();
 	}
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -18,7 +19,7 @@ public class ScrollOnTouch : MonoBehaviour {
         if (collision.gameObject.tag == "Player")
         {
             player.avaibleSpells[spellNumber] = true;
-		//	spell.UpdateSpellImage();
+            UIManager.AddSpell(spellNumber);
             Destroy(this.gameObject);
         }
     }
