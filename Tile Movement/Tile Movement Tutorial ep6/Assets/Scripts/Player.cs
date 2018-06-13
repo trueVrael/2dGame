@@ -13,6 +13,7 @@ public class Player : MovingObject
 		public int maxHP;
         private bool spellUsed = false;
 		public bool[] avaibleSpells;
+        public int[] numberOfKeys;
         private string spellName;
         private Collider2D spellCollider;
         private SpriteRenderer spellSprite;
