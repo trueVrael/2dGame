@@ -109,11 +109,14 @@ public class Player : MovingObject
 		//It takes a generic parameter T which in the case of Player is a Wall which the player can attack and destroy.
 		protected override void OnCantMove <T> (T component)
 		{
-        Debug.Log(component);
+            if (component.GetComponent<PushableStone>() != null)
+            {
+                PushableStone stone = component.GetComponent<PushableStone>();
+                stone.Push();
+            }
             if (component.GetComponent<Door>() != null)
             {
                 Door door = component.GetComponent<Door>();
-                Debug.Log("dorrs");
                 if (numberOfKeys[door.DoorKey] > 0)
                 {
                     door.Open();
