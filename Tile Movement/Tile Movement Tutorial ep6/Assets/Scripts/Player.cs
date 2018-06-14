@@ -12,7 +12,9 @@ public class Player : MovingObject
 		public int hp;                           //Used to store player food points total during level.
 		public int maxHP;
         private bool spellUsed = false;
+        private UIManager UIManager;
 		public bool[] avaibleSpells;
+        public int[] numberOfKeys;
         private string spellName;
         private Collider2D spellCollider;
         private SpriteRenderer spellSprite;
@@ -28,6 +30,7 @@ public class Player : MovingObject
 		{
 			//Get a component reference to the Player's animator component
 			animator = GetComponent<Animator>();
+        UIManager = GameObject.FindGameObjectWithTag("Canvas").GetComponent<UIManager>();
 			avaibleSpells = new bool[] { false, false, false, false }; 
 			//Get the current food point total stored in GameManager.instance between levels.
 			hp = GameManager.instance.playerHP;		
@@ -79,23 +82,20 @@ public class Player : MovingObject
 			{
 				//Call AttemptMove passing in the generic parameter Wall, since that is what Player may interact with if they encounter one (by attacking it)
 				//Pass in horizontal and vertical as parameters to specify the direction to move Player in.
-				AttemptMove<Enemy>(horizontal, vertical);
+				AttemptMove(horizontal, vertical);
 			}
 		}
 		
 		//AttemptMove overrides the AttemptMove function in the base class MovingObject
 		//AttemptMove takes a generic parameter T which for Player will be of the type Wall, it also takes integers for x and y direction to move in.
-		protected override bool AttemptMove<T>(int xDir, int yDir)
+		protected override bool AttemptMove(int xDir, int yDir)
 		{
 			//Call the AttemptMove method of the base class, passing in the component T (in this case Wall) and x and y direction to move.
-			if(base.AttemptMove<T>(xDir, yDir)){
+			if(base.AttemptMove(xDir, yDir)){
 				this.x += xDir;
 				this.y +=yDir;
 			}
-			
-			//Hit allows us to reference the result of the Linecast done in Move.
-			RaycastHit2D hit;
-			
+						
 			//Since the player has moved and lost food points, check if the game has ended.
 			CheckIfGameOver ();
 			
@@ -109,14 +109,29 @@ public class Player : MovingObject
 		//It takes a generic parameter T which in the case of Player is a Wall which the player can attack and destroy.
 		protected override void OnCantMove <T> (T component)
 		{
-			//Set hitEnemy to equal the component passed in as a parameter.
-			Enemy hitEnemy = component as Enemy;
-			
-			//Call the DamageWall function of the Wall we are hitting.
-			hitEnemy.LoseHP (dmg);
-			
-			//Set the attack trigger of the player's animation controller in order to play the player's attack animation.
-			animator.SetTrigger ("playerHit");
+        Debug.Log(component);
+            if (component.GetComponent<Door>() != null)
+            {
+                Door door = component.GetComponent<Door>();
+                Debug.Log("dorrs");
+                if (numberOfKeys[door.DoorKey] > 0)
+                {
+                    door.Open();
+                    numberOfKeys[door.DoorKey]--;
+                    UIManager.UpdateKeys();                
+                }
+            }
+            if (component.GetComponent<Enemy>() != null)
+            {
+                //Set hitEnemy to equal the component passed in as a parameter.
+                Enemy hitEnemy = component.GetComponent<Enemy>();
+
+                //Call the DamageWall function of the Wall we are hitting.
+                hitEnemy.LoseHP(dmg);
+
+                //Set the attack trigger of the player's animation controller in order to play the player's attack animation.
+                animator.SetTrigger("playerHit");
+            }
 		}
 		
 		

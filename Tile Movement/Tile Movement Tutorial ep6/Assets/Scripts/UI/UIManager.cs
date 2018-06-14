@@ -10,6 +10,11 @@ public class UIManager : MonoBehaviour {
 	public Text hpText;
 	public Player Player;
 
+    public Sprite[] KeyTypeSprites;
+    public GameObject KeyPanel;
+    public GameObject KeyShowerPrefab;
+    private List<GameObject> KeyBars = new List<GameObject>();
+
     public ToggleGroup spellPanel;
     private readonly string[] ToggleKeys = { "SpellLeft", "SpellUp", "SpellDown", "SpellRight"};
     private Toggle[] toggles;
@@ -37,6 +42,20 @@ public class UIManager : MonoBehaviour {
 
         enableButton.onClick.AddListener(EnableButtonPressed);
         SpellBookIsEnabled = false;
+
+        for (int i = 0; i < Player.numberOfKeys.Length; i++)
+        {
+            GameObject newPanel = new GameObject("", typeof(RectTransform));
+            HorizontalLayoutGroup hlg = newPanel.AddComponent<HorizontalLayoutGroup>();
+            hlg.childAlignment = TextAnchor.UpperRight;
+            hlg.spacing = -2 * KeyShowerPrefab.GetComponent<RectTransform>().rect.width;
+            hlg.childControlHeight = false;
+            hlg.childControlWidth = false;
+            hlg.childForceExpandHeight = false;
+            hlg.childForceExpandWidth = false;
+            newPanel.transform.SetParent(KeyPanel.transform);
+            KeyBars.Add(newPanel);
+        }
 	}
 
     // Update is called once per frame
@@ -44,8 +63,9 @@ public class UIManager : MonoBehaviour {
 	void Update () {
         if (FirstFrame)
         {
-            AddSpell(0);
             SpellBook.SetActive(SpellBookIsEnabled);
+            UpdateKeys();
+
             FirstFrame = false;
         }
 		hpBar.maxValue = Player.maxHP;
@@ -60,6 +80,27 @@ public class UIManager : MonoBehaviour {
             }
         }
 	}
+
+    public void UpdateKeys()
+    {
+        for (int i = 0; i < Player.numberOfKeys.Length; i++)
+        {
+            int numKeys = Player.numberOfKeys[i];
+            int children = KeyBars[i].transform.childCount;
+            while (children > numKeys)
+            {
+                Destroy(KeyBars[i].transform.GetChild(children - 1).gameObject);
+                children--;
+            }
+            while (children < numKeys)
+            {
+                GameObject go = Instantiate(KeyShowerPrefab);
+                go.GetComponentInChildren<Image>().sprite = KeyTypeSprites[i];
+                go.transform.SetParent(KeyBars[i].transform);
+                children++;
+            }
+        }
+    }
 
     public void EnableButtonPressed()
     {
