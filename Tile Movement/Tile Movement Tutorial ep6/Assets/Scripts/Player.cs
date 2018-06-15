@@ -112,7 +112,12 @@ public class Player : MovingObject
             if (component.GetComponent<PushableStone>() != null)
             {
                 PushableStone stone = component.GetComponent<PushableStone>();
-                stone.Push();
+                int xDir, yDir;
+                if (stone.Push(out xDir, out yDir))
+                {
+                    this.x += xDir;
+                    this.y += yDir;
+                }
             }
             if (component.GetComponent<Door>() != null)
             {

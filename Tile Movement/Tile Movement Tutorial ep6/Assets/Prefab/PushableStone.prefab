@@ -24,7 +24,7 @@ GameObject:
   - component: {fileID: 50881647651737424}
   - component: {fileID: 114607144231885046}
   m_Layer: 8
-  m_Name: MovableStone
+  m_Name: PushableStone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

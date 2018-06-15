@@ -13,12 +13,26 @@ public class PushableStone : MovingObject {
         base.Start();
 	}
 	
-    public void Push()
+    public bool Push(out int xDir, out int yDir)
     {
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
         Vector2 pos = transform.position;
-        Vector2 playerPos = GameObject.FindGameObjectWithTag("Player").transform.position;
+        Vector2 playerPos = player.transform.position;
         Vector2 delta = pos - playerPos;
+        xDir = 0;
+        yDir = 0;
 
-        AttemptMove((int) delta.x, (int) delta.y);
+        if (AttemptMove((int) delta.x, (int)delta.y))
+        {
+            xDir = (int)delta.x;
+            yDir = (int)delta.y;
+            Player playercomp = player.GetComponent<Player>();
+            float playermt = playercomp.moveTime;
+            playercomp.SetMoveTime(moveTime);
+            StartCoroutine(playercomp.SmoothMovement(playerPos + delta, () => playercomp.SetMoveTime(playermt)));
+            return true;
+        }
+        return false;
+        
     }
 }

@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 //The abstract keyword enables you to create classes and class members that are incomplete and must be implemented in a derived class.
 public abstract class MovingObject : MonoBehaviour
@@ -31,6 +32,12 @@ public abstract class MovingObject : MonoBehaviour
         {
             boxCollider.enabled = state;
         }
+
+        public void SetMoveTime(float mt)
+    {
+        moveTime = mt;
+        inverseMoveTime = 1f / mt;
+    }
 		
 		
 		//Move returns true if it is able to move and false if not. 
@@ -69,7 +76,7 @@ public abstract class MovingObject : MonoBehaviour
 		
 		
 		//Co-routine for moving units from one space to next, takes a parameter end to specify where to move to.
-		protected IEnumerator SmoothMovement (Vector3 end)
+		public IEnumerator SmoothMovement (Vector3 end, Action movementEnded = null)
 		{
 			//Calculate the remaining distance to move based on the square magnitude of the difference between current position and end parameter. 
 			//Square magnitude is used instead of magnitude because it's computationally cheaper.
@@ -88,6 +95,8 @@ public abstract class MovingObject : MonoBehaviour
 				//Return and loop until sqrRemainingDistance is close enough to zero to end the function
 				yield return null;
 			}
+            if (movementEnded != null)
+                movementEnded();
 		}
 		
 		
