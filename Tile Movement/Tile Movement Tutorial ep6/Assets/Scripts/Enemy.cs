@@ -30,13 +30,13 @@ public class Enemy : MovingObject {
 	
 	//Override the AttemptMove function of MovingObject to include functionality needed for Enemy to skip turns.
 		//See comments in MovingObject for more on how base AttemptMove function works.
-	protected override bool AttemptMove <T> (int xDir, int yDir)
+	protected override bool AttemptMove(int xDir, int yDir)
 	{
 			//Check if skipMove is true, if so set it to false and skip this turn.
 		if(Mathf.Abs (player.x - this.x) + Mathf.Abs (player.y - this.y) <= seeRange)
 		{
 			//Call the AttemptMove function from MovingObject.
-			if(base.AttemptMove<T>(xDir, yDir)){
+			if(base.AttemptMove(xDir, yDir)){
 				this.x += xDir;
 				this.y +=yDir;
 				return true;
@@ -66,7 +66,7 @@ public class Enemy : MovingObject {
 			xDir = targetPlayer.position.x > transform.position.x ? 1 : -1;
 		
 		//Call the AttemptMove function and pass in the generic parameter Player, because Enemy is moving and expecting to potentially encounter a Player
-		AttemptMove <Player> (xDir, yDir);
+		AttemptMove(xDir, yDir);
 	}
 		
 		
@@ -74,18 +74,22 @@ public class Enemy : MovingObject {
 	//and takes a generic parameter T which we use to pass in the component we expect to encounter, in this case Player
 	protected override void OnCantMove <T> (T component)
 	{
-		//Declare hitPlayer and set it to equal the encountered component.
-		Player hitPlayer = component as Player;
-	
-		//Call the LoseFood function of hitPlayer passing it playerDamage, the amount of hp to be subtracted.
-		if(hitPlayer != null){
-			hitPlayer.LoseHP(dmg);
-		
-			//Set the attack trigger of animator to trigger Enemy attack animation.
-			animator.SetTrigger ("enemyAttack");
-		}
-		//Call the RandomizeSfx function of SoundManager passing in the two audio clips to choose randomly between.
-		//SoundManager.instance.RandomizeSfx (attackSound1, attackSound2);
+        //Declare hitPlayer and set it to equal the encountered component.
+        if (component.GetComponent<Player>() != null)
+        {
+            Player hitPlayer = component.GetComponent<Player>();
+
+            //Call the LoseFood function of hitPlayer passing it playerDamage, the amount of hp to be subtracted.
+            if (hitPlayer != null)
+            {
+                hitPlayer.LoseHP(dmg);
+
+                //Set the attack trigger of animator to trigger Enemy attack animation.
+                animator.SetTrigger("enemyAttack");
+            }
+            //Call the RandomizeSfx function of SoundManager passing in the two audio clips to choose randomly between.
+            //SoundManager.instance.RandomizeSfx (attackSound1, attackSound2);
+        }
 	}
 	
 	public void LoseHP (int loss)
