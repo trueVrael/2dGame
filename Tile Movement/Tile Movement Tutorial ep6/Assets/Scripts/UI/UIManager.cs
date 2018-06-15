@@ -16,7 +16,7 @@ public class UIManager : MonoBehaviour {
     private List<GameObject> KeyBars = new List<GameObject>();
 
     public ToggleGroup spellPanel;
-    private readonly string[] ToggleKeys = { "SpellLeft", "SpellUp", "SpellDown", "SpellRight"};
+    private readonly string[] ToggleKeys = { "Spell1", "Spell2", "Spell3", "Spell4"};
     private Toggle[] toggles;
 
     public Button enableButton;
@@ -76,7 +76,10 @@ public class UIManager : MonoBehaviour {
         {
             if (Input.GetButtonUp(ToggleKeys[i]))
             {
-                toggles[i].isOn = !toggles[i].isOn;
+                if (Player.avaibleSpells[i])
+                {
+                    toggles[i].isOn = !toggles[i].isOn;
+                }
             }
         }
 	}
