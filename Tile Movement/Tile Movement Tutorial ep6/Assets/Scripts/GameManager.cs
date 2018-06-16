@@ -12,7 +12,9 @@ public class GameManager : MonoBehaviour
 	[HideInInspector] public bool playersTurn = true;		//Boolean to check if it's players turn, hidden in inspector but public.
 		
 	private Text levelText;									//Text to display current level number.	
-	private GameObject levelImage;							//Image to block out level as levels are being set up, background for levelText.
+	private Player player_sc;
+	private GameObject levelImage;	//Image to block out level as levels are being set up, background for levelText.
+	private GameObject player;
 	private int level = 1;									//Current level number.
 	public int playerHP = 5;
 	private List<Enemy> enemies;							//List of all Enemy units, used to issue them move commands.
@@ -61,14 +63,14 @@ public class GameManager : MonoBehaviour
 		void InitGame()
 		{
 			//While doingSetup is true the player can't move, prevent player from moving while title card is up.
-		//	doingSetup = true;
+			//doingSetup = true;
 			
 			//Get a reference to our image LevelImage by finding it by name.
 			levelImage = GameObject.Find("LevelImage");
 			
 			//Get a reference to our text LevelText's text component by finding it by name and calling GetComponent.
 			levelText = GameObject.Find("LevelText").GetComponent<Text>();
-			
+			player_sc = GameObject.Find("Player").GetComponent<Player>();
 			//Set the text of levelText to the string "Day" and append the current level number.
 			//levelText.text = "Day " + level;
 			
@@ -146,7 +148,12 @@ public class GameManager : MonoBehaviour
 			
 			//Enable black background image gameObject.
 			levelImage.SetActive(true);
-			
+			//disable player
+			player = GameObject.Find("Player");
+			//gameObject.SetActive(false);
+			player.transform.position = new Vector2(1.5f,-0.5f);
+			player_sc.x = (int)player.transform.position.x;
+			player_sc.y = (int)player.transform.position.y;
 			//Disable this GameManager.
 			enabled = false;
 			Application.LoadLevel(scene);

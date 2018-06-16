@@ -8,7 +8,7 @@ using UnityEngine.SceneManagement;
 //Player inherits from MovingObject, our base class for objects that can move, Enemy also inherits from this.
 public class Player : MovingObject
 	{
-		public static Player instance = null;	
+		public Player instance = null;	
 		private Animator animator;					//Used to store a reference to the Player's animator component.
 		public int hp;                           //Used to store player food points total during level.
 		public int maxHP;
@@ -166,9 +166,6 @@ public class Player : MovingObject
 			{
 				//Invoke the Restart function to start the next level with a delay of restartLevelDelay (default 1 second).
 				Invoke ("Restart", restartLevelDelay);
-				
-				//Disable the player object since level is over.
-				enabled = false;
 			}
 		}
 		
@@ -176,10 +173,7 @@ public class Player : MovingObject
 		//Restart reloads the scene when called.
 		private void Restart ()
 		{
-			//Load the last scene loaded, in this case Main, the only scene in the game. And we load it in "Single" mode so it replace the existing one
-            //and not load all the scene object in the current scene.
 			GameManager.instance.NextLevel ();
-            //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex, LoadSceneMode.Single);
 		}
 		
 		
