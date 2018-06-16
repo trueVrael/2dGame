@@ -8,6 +8,7 @@ using UnityEngine.SceneManagement;
 //Player inherits from MovingObject, our base class for objects that can move, Enemy also inherits from this.
 public class Player : MovingObject
 	{
+		public static Player instance = null;	
 		private Animator animator;					//Used to store a reference to the Player's animator component.
 		public int hp;                           //Used to store player food points total during level.
 		public int maxHP;
@@ -26,8 +27,22 @@ public class Player : MovingObject
         public GameObject[] SpellsIcons;
         public GameObject[] Spells;
 		//Start overrides the Start function of MovingObject
-		protected override void Start ()
-		{
+		protected override void Start (){
+		
+		           //Check if instance already exists
+        //   if (instance == null)
+
+                //if not, set instance to this
+           //     instance = this;
+
+            //If instance already exists and it's not this:
+         //   else if (instance != this)
+
+                //Then destroy this. This enforces our singleton pattern, meaning there can only ever be one instance of a GameManager.
+            //    Destroy(gameObject);	
+			
+			//Sets this to not be destroyed when reloading scene
+			DontDestroyOnLoad(gameObject);
 			//Get a component reference to the Player's animator component
 			animator = GetComponent<Animator>();
 			UIManager = GameObject.FindGameObjectWithTag("Canvas").GetComponent<UIManager>();

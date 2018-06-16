@@ -33,7 +33,9 @@ public class UIManager : MonoBehaviour {
 		}
 		else
 			Destroy(gameObject);
-
+		if(!Player){
+			Player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+		}
         toggles = spellPanel.GetComponentsInChildren<Toggle>();
         for (int i = 0; i < toggles.Length; i++) {
             int newi = i;
@@ -61,6 +63,9 @@ public class UIManager : MonoBehaviour {
     // Update is called once per frame
     private bool FirstFrame = true;
 	void Update () {
+		if(!Player){
+			Player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+		}
         if (FirstFrame)
         {
             SpellBook.SetActive(SpellBookIsEnabled);

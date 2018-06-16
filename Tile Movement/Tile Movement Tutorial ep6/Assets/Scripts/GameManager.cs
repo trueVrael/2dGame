@@ -150,6 +150,7 @@ public class GameManager : MonoBehaviour
 			//Disable this GameManager.
 			enabled = false;
 			Application.LoadLevel(scene);
+			enabled = true;
 		}
 		
 		//Coroutine to move enemies in sequence.
