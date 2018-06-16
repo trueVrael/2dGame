@@ -30,12 +30,12 @@ public class Player : MovingObject
 		{
 			//Get a component reference to the Player's animator component
 			animator = GetComponent<Animator>();
-        UIManager = GameObject.FindGameObjectWithTag("Canvas").GetComponent<UIManager>();
+			UIManager = GameObject.FindGameObjectWithTag("Canvas").GetComponent<UIManager>();
 			avaibleSpells = new bool[] { false, false, false, false }; 
 			//Get the current food point total stored in GameManager.instance between levels.
 			hp = GameManager.instance.playerHP;		
-			this.x = 1;
-			this.y = -1;
+			this.x = (int)transform.position.x;
+			this.y = (int)transform.position.y;
 			//Call the Start function of the MovingObject base class.
 			base.Start ();
 			maxHP=5;

@@ -17,7 +17,6 @@ public class GameManager : MonoBehaviour
 	public int playerHP = 5;
 	private List<Enemy> enemies;							//List of all Enemy units, used to issue them move commands.
 	private bool enemiesMoving;								//Boolean to check if enemies are moving.
-		
 	//Awake is always called before any Start functions
 	void Awake()
 	{
@@ -140,14 +139,17 @@ public class GameManager : MonoBehaviour
 		
 		public void NextLevel()
 		{
+			int l = instance.level+1;
+			string scene = "Level"+l;
 			//Set levelText to display number of levels passed and game over message
-			levelText.text = "Level 2";
+			levelText.text = "Level "+l;
 			
 			//Enable black background image gameObject.
 			levelImage.SetActive(true);
 			
 			//Disable this GameManager.
 			enabled = false;
+			Application.LoadLevel(scene);
 		}
 		
 		//Coroutine to move enemies in sequence.

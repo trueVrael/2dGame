@@ -11,7 +11,6 @@ public class TileMap : MonoBehaviour {
 	int[,] tiles;
 	Node[,] graph;
 	public GameObject exit;	
-
 	int mapSizeX = 13;
 	int mapSizeY = 11;
 
@@ -103,6 +102,7 @@ public class TileMap : MonoBehaviour {
 		tiles[4, 6] = 2;
 		tiles[8, 5] = 2;
 		tiles[8, 6] = 2;*/
+
 
 		//enemies
 		Vector3 pos = new Vector3(9.5f, 3.5f, 0);
