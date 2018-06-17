@@ -113,11 +113,21 @@ public class TileMap : MonoBehaviour {
 			//exit
 			Instantiate (exit, new Vector3 (9.5f, 9.5f, 0f), Quaternion.identity);
 		}
-		if(GameManager.instance.level == 2 ){
+		else if(GameManager.instance.level == 2 ){
 			Vector3 pos = new Vector3(1.5f,6.5f,0);
 			Instantiate(enemyTiles[0], pos, Quaternion.identity);
 			Vector3 pos2 = new Vector3(7.5f,0.5f,0);
 			Instantiate(enemyTiles[0], pos2, Quaternion.identity);
+		}
+		else if(GameManager.instance.level == 3 ){
+			Vector3 pos = new Vector3(2.5f,5.5f,0);
+			Instantiate(enemyTiles[0], pos, Quaternion.identity);
+			Vector3 pos2 = new Vector3(14.5f,1.5f,0);
+			Instantiate(enemyTiles[0], pos2, Quaternion.identity);
+			Vector3 pos3 = new Vector3(13.5f,14.5f,0);
+			Instantiate(enemyTiles[0], pos3, Quaternion.identity);
+			Vector3 pos4 = new Vector3(11.5f,13.5f,0);
+			Instantiate(enemyTiles[0], pos4, Quaternion.identity);
 		}
 	}
 
