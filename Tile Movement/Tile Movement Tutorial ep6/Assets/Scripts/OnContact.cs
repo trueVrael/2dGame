@@ -5,6 +5,12 @@ using UnityEngine;
 public class OnContact : MonoBehaviour {
 
     public int spellDMG;
+    private Player player;
+
+    private void Start()
+    {
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();  
+    }
 
     void OnCollisionEnter2D(Collision2D other)
     {
@@ -14,6 +20,6 @@ public class OnContact : MonoBehaviour {
             enemy.LoseHP(spellDMG);
         }
 
-        if (other.gameObject.tag != "Player" && other.gameObject.tag!= "Direction") { Destroy(gameObject); }
+        if (other.gameObject.tag != "Player"/* && other.gameObject.tag!= "Direction"*/) {player.spellUsed = false; Destroy(gameObject); }
     }
 }

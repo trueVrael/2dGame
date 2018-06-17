@@ -110,9 +110,10 @@ public class GameManager : MonoBehaviour
 				
 				//If any of these are true, return and do not start MoveEnemies.
 				return;
-			
-			//Start moving enemies.
-			StartCoroutine (MoveEnemies ());
+
+        //Start moving enemies.
+        if (player_sc.spellUsed==false)
+            StartCoroutine (MoveEnemies ());
 		}
 		
 		//Call this to add the passed in Enemy to the List of Enemy objects.
@@ -190,11 +191,23 @@ public class GameManager : MonoBehaviour
 			//Loop through List of Enemy objects.
 			for (int i = 0; i < enemies.Count; i++)
 			{
-				//Call the MoveEnemy function of Enemy at index i in the enemies List.
-				enemies[i].MoveEnemy ();
-				
-				//Wait for Enemy's moveTime before moving next Enemy, 
-				yield return new WaitForSeconds(enemies[i].moveTime);
+            //Call the MoveEnemy function of Enemy at index i in the enemies List.
+            if (enemies[i].turnFrozen > 4)
+            {
+                enemies[i].turnFrozen = 0;
+                enemies[i].frozen = false;
+            }
+            if (enemies[i].frozen == false)
+            {
+                enemies[i].MoveEnemy();
+            }
+            else
+            {
+                enemies[i].turnFrozen++;
+            }
+
+            //Wait for Enemy's moveTime before moving next Enemy, 
+            yield return new WaitForSeconds(enemies[i].moveTime);
 			}
 			//Once Enemies are done moving, set playersTurn to true so player can move.
 			playersTurn = true;

@@ -12,7 +12,8 @@ public class Player : MovingObject
 		private Animator animator;					//Used to store a reference to the Player's animator component.
 		public int hp;                           //Used to store player food points total during level.
 		public int maxHP;
-        private bool spellUsed = false;
+        public int thunderDamage = 2;
+        public bool spellUsed = false;
         private string direction;
         private UIManager UIManager;
 		public bool[] avaibleSpells;
@@ -68,6 +69,9 @@ public class Player : MovingObject
 		
 		private void Update ()
 		{
+        Debug.Log(enabled);
+        Debug.Log(spellName);
+        Debug.Log(spellUsed);
 			//If it's not the player's turn, exit the function.
 			if(!GameManager.instance.playersTurn) return;
 			int horizontal = 0;  	//Used to store the horizontal move direction.
@@ -229,23 +233,60 @@ public class Player : MovingObject
     
         public void UseSpell(Vector3 spellTransformPosition, Quaternion spellTransformRotation)
         {
+        if(spellName!="10")spellUsed = true;
          switch(spellName)
             {
                 case "FireBall": FireBall(spellTransformPosition, spellTransformRotation); break;
+                case "Thunder": Thunder(spellTransformPosition); break;
+                case "IceBall": IceBall(spellTransformPosition, spellTransformRotation); break;
             }
+        GameManager.instance.playersTurn = false;
         }
-        
+
 
         public void FireBall(Vector3 spellTransformPosition, Quaternion spellTransformRotation)
         {
-			if(this.avaibleSpells[0] == true){
-				Instantiate(Spells[0], spellTransformPosition, spellTransformRotation);
-
-				spellUsed = false;
-				GameManager.instance.playersTurn = false;
-			}
+            if (this.avaibleSpells[0] == true)
+            {
+                Instantiate(Spells[0], spellTransformPosition, spellTransformRotation);
+            }
         }
 
+        public void Thunder(Vector3 spellTransformPosition)
+        {
+            GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+            int count = enemies.Length;
+            for (int i = 0; i < count; i++)
+            {
+                if ((enemies[i].transform.position.x - spellTransformPosition.x) * (enemies[i].transform.position.x - spellTransformPosition.x) <= 1 || (enemies[i].transform.position.y - spellTransformPosition.y) * (enemies[i].transform.position.y - spellTransformPosition.y) <= 1)
+                {
+                    Enemy enemy = enemies[i].GetComponent<Enemy>();
+                    enemy.LoseHP(thunderDamage);
+                }
+            }
+
+            Quaternion rotation = new Quaternion(0, 0, 0, 0);
+            Vector3 position = spellTransformPosition;
+
+            for (int i = -1; i <= 1; i++)
+            {
+                position.x = spellTransformPosition.x + i;
+                for (int j = -1; j <= 1; j++)
+                {
+                    position.y = spellTransformPosition.y + j;
+                    if (position.x != this.transform.position.x || position.y != this.transform.position.y) Instantiate(Spells[1], position, rotation);
+                }
+            }
+
+        }
+
+        public void IceBall(Vector3 spellTransformPosition, Quaternion spellTransformRotation)
+        {
+            if (this.avaibleSpells[2])
+            {
+                Instantiate(Spells[2], spellTransformPosition, spellTransformRotation);
+            }
+        }
     /*
     private void OnMouseDown()
     {

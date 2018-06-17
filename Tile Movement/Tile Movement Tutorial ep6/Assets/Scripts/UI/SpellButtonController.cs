@@ -55,6 +55,12 @@ public class SpellButtonController : MonoBehaviour {
             case 0:
                 spellText = "FireBall";
                 break;
+            case 1:
+                spellText = "Thunder";
+                break;
+            case 2:
+                spellText = "IceBall";
+                break;
             default:
                 spellText = "";
                 break;
@@ -68,6 +74,12 @@ public class SpellButtonController : MonoBehaviour {
         switch (spellText) {
             case "FireBall":
                 spellID = 0;
+                break;
+            case "Thunder":
+                spellID = 1;
+                break;
+            case "IceBall":
+                spellID = 2;
                 break;
             default:
                 spellID = -1;

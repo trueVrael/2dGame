@@ -7,7 +7,10 @@ public class Enemy : MovingObject {
 	public int dmg;
 	public int hp;
 	public int x,y;
-	private Animator animator;
+    public bool frozen = false;
+    public GameObject iceWall;
+    public int turnFrozen = 0;
+    private Animator animator;
 	private GameObject target;
 	private Player player;
 	private bool skipMove;
