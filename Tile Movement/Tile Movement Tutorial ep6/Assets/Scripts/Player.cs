@@ -13,6 +13,7 @@ public class Player : MovingObject
 		public int hp;                           //Used to store player food points total during level.
 		public int maxHP;
         private bool spellUsed = false;
+        private string direction;
         private UIManager UIManager;
 		public bool[] avaibleSpells;
         public int[] numberOfKeys;
@@ -69,7 +70,6 @@ public class Player : MovingObject
 		{
 			//If it's not the player's turn, exit the function.
 			if(!GameManager.instance.playersTurn) return;
-			
 			int horizontal = 0;  	//Used to store the horizontal move direction.
 			int vertical = 0;       //Used to store the vertical move direction.
 			
@@ -79,11 +79,29 @@ public class Player : MovingObject
 			//Get input from the input manager, round it to an integer and store in vertical to set y axis move direction
 			vertical = (int) (Input.GetAxisRaw ("Vertical"));
 
-            /*
-            if(Input.GetButtonDown("Spell"))
+        /*
+        if(Input.GetButtonDown("Spell"))
+        {
+        spellUsed = true;
+        } */
+        if (Input.GetKeyDown("w")) direction = "w";
+        if (Input.GetKeyDown("s")) direction = "s";
+        if (Input.GetKeyDown("a")) direction = "a";
+        if (Input.GetKeyDown("d")) direction = "d";
+        if (direction=="w" || direction == "s" || direction == "a" || direction == "d")
+        {
+            Vector3 position = new Vector3(this.gameObject.GetComponent<Transform>().position.x, this.gameObject.GetComponent<Transform>().position.y, this.gameObject.GetComponent<Transform>().position.z);
+            Quaternion rotation = new Quaternion(this.gameObject.GetComponent<Transform>().rotation.w, this.gameObject.GetComponent<Transform>().rotation.x, this.gameObject.GetComponent<Transform>().rotation.y, this.gameObject.GetComponent<Transform>().rotation.z);
+            switch (direction)
             {
-            spellUsed = true;
-            } */
+                case "w": rotation.eulerAngles = new Vector3 (0, 0, 0); position = new Vector3(position.x, position.y + 1, position.z); break;
+                case "s": rotation.eulerAngles = new Vector3(0, 0, 180); position = new Vector3(position.x, position.y - 1, position.z); break;
+                case "a": rotation.eulerAngles = new Vector3(0, 0, 90); position= new Vector3(position.x - 1, position.y, position.z); break;
+                case "d": rotation.eulerAngles = new Vector3(0, 0, 270); position = new Vector3(position.x + 1, position.y, position.z); break;
+            }
+            direction = "no_direction";
+           UseSpell(position, rotation);
+        }
 
 
 			//Check if moving horizontally, if so set vertical to zero.
@@ -164,6 +182,8 @@ public class Player : MovingObject
 			//Check if the tag of the trigger collided with is Exit.
 			if(other.tag == "Exit")
 			{
+				GameManager.instance.playersTurn = false;
+				enabled=false;
 				//Invoke the Restart function to start the next level with a delay of restartLevelDelay (default 1 second).
 				Invoke ("Restart", restartLevelDelay);
 			}
@@ -174,6 +194,7 @@ public class Player : MovingObject
 		private void Restart ()
 		{
 			GameManager.instance.NextLevel ();
+			enabled=true;
 		}
 		
 		
@@ -206,26 +227,26 @@ public class Player : MovingObject
 			}
 		}
     
-        public void UseSpell(Transform spellTransform)
+        public void UseSpell(Vector3 spellTransformPosition, Quaternion spellTransformRotation)
         {
          switch(spellName)
             {
-                case "FireBall": FireBall(spellTransform); break;
+                case "FireBall": FireBall(spellTransformPosition, spellTransformRotation); break;
             }
         }
         
 
-        public void FireBall(Transform spellTransform)
+        public void FireBall(Vector3 spellTransformPosition, Quaternion spellTransformRotation)
         {
 			if(this.avaibleSpells[0] == true){
-				Instantiate(Spells[0], spellTransform.position, spellTransform.rotation);
+				Instantiate(Spells[0], spellTransformPosition, spellTransformRotation);
 
 				spellUsed = false;
 				GameManager.instance.playersTurn = false;
 			}
         }
 
- 
+    /*
     private void OnMouseDown()
     {
         spellUsed = true;
@@ -252,7 +273,7 @@ public class Player : MovingObject
             spellUsed = false;
         }
     }
-
+    */
     public void DestroyTiles()
     {
         GameObject[] tiles = GameObject.FindGameObjectsWithTag("Direction");
@@ -262,21 +283,22 @@ public class Player : MovingObject
             Destroy(tiles[i]);
         }
 
-        GameObject.FindGameObjectWithTag("Canvas").GetComponent<UIManager>().SpellUsed();
+       // GameObject.FindGameObjectWithTag("Canvas").GetComponent<UIManager>().SpellUsed();
     }
-
+    
     public void CheckDirection(string x)
     {
+        /*
         spellName = x;
         Instantiate(tileCollider, spellSpawn[0].position, spellSpawn[0].rotation);
         Instantiate(tileCollider, spellSpawn[1].position, spellSpawn[1].rotation);
         Instantiate(tileCollider, spellSpawn[2].position, spellSpawn[2].rotation);
-        Instantiate(tileCollider, spellSpawn[3].position, spellSpawn[3].rotation);
+        Instantiate(tileCollider, spellSpawn[3].position, spellSpawn[3].rotation);*/
+        spellName = x;
     }
-
-
-
     /*
+
+
         public int spellRange;
         public int spellDMG;
     private void Bomb()

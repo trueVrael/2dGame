@@ -148,7 +148,7 @@ public class UIManager : MonoBehaviour {
         else
         {
             Debug.Log("Spell was unselected: " + spellText);
-            Player.DestroyTiles();
+            Player.CheckDirection("10");
         }
     }
 }

@@ -15,10 +15,11 @@ public class GameManager : MonoBehaviour
 	private Player player_sc;
 	private GameObject levelImage;	//Image to block out level as levels are being set up, background for levelText.
 	private GameObject player;
-	private int level = 1;									//Current level number.
+	public int level = 1;									//Current level number.
 	public int playerHP = 5;
 	private List<Enemy> enemies;							//List of all Enemy units, used to issue them move commands.
 	private bool enemiesMoving;								//Boolean to check if enemies are moving.
+	private bool doingSetup = true;							//Boolean to check if we're setting up board, prevent Player from moving during setup.
 	//Awake is always called before any Start functions
 	void Awake()
 	{
@@ -62,8 +63,9 @@ public class GameManager : MonoBehaviour
 		//Initializes the game for each level.
 		void InitGame()
 		{
+			Debug.Log("trasfafsafsa" + playersTurn);
 			//While doingSetup is true the player can't move, prevent player from moving while title card is up.
-			//doingSetup = true;
+			doingSetup = true;
 			
 			//Get a reference to our image LevelImage by finding it by name.
 			levelImage = GameObject.Find("LevelImage");
@@ -96,14 +98,15 @@ public class GameManager : MonoBehaviour
 			levelImage.SetActive(false);
 			
 			//Set doingSetup to false allowing player to move again.
-			//doingSetup = false;
+			doingSetup = false;
+			playersTurn = true;
 		}
 		
 		//Update is called every frame.
 		void Update()
 		{
 			//Check that playersTurn or enemiesMoving or doingSetup are not currently true.
-			if(playersTurn || enemiesMoving)
+			if(playersTurn || enemiesMoving || doingSetup)
 				
 				//If any of these are true, return and do not start MoveEnemies.
 				return;
@@ -141,19 +144,22 @@ public class GameManager : MonoBehaviour
 		
 		public void NextLevel()
 		{
+			doingSetup = true;
+			playersTurn = false;
 			int l = instance.level+1;
 			string scene = "Level"+l;
 			//Set levelText to display number of levels passed and game over message
 			levelText.text = "Level "+l;
-			
 			//Enable black background image gameObject.
 			levelImage.SetActive(true);
 			//disable player
 			player = GameObject.Find("Player");
 			//gameObject.SetActive(false);
-			player.transform.position = new Vector2(1.5f,-0.5f);
-			player_sc.x = (int)player.transform.position.x;
-			player_sc.y = (int)player.transform.position.y;
+			if(l == 2){
+				player.transform.position = new Vector2(1.5f,0.5f);
+				player_sc.x = (int)player.transform.position.x;
+				player_sc.y = 1;
+			}
 			//Disable this GameManager.
 			enabled = false;
 			Application.LoadLevel(scene);
