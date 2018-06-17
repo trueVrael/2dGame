@@ -258,7 +258,7 @@ public class Player : MovingObject
             int count = enemies.Length;
             for (int i = 0; i < count; i++)
             {
-                if ((enemies[i].transform.position.x - spellTransformPosition.x) * (enemies[i].transform.position.x - spellTransformPosition.x) <= 1 || (enemies[i].transform.position.y - spellTransformPosition.y) * (enemies[i].transform.position.y - spellTransformPosition.y) <= 1)
+                if ((enemies[i].transform.position.x - spellTransformPosition.x) * (enemies[i].transform.position.x - spellTransformPosition.x) <= 1 && (enemies[i].transform.position.y - spellTransformPosition.y) * (enemies[i].transform.position.y - spellTransformPosition.y) <= 1)
                 {
                     Enemy enemy = enemies[i].GetComponent<Enemy>();
                     enemy.LoseHP(thunderDamage);
