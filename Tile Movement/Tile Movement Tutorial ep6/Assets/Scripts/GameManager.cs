@@ -165,6 +165,12 @@ public class GameManager : MonoBehaviour
 				player_sc.x = -2;
 				player_sc.y = 3;
 			}
+            else if (l == 4)
+            {
+            player.transform.position = new Vector2(0.5f, 1.5f);
+            player_sc.x = 0;
+            player_sc.y = 1;
+            }
 			//Disable this GameManager.
 			enabled = false;
 			Application.LoadLevel(scene);
