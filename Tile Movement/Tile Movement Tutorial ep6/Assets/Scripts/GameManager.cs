@@ -105,6 +105,9 @@ public class GameManager : MonoBehaviour
 		//Update is called every frame.
 		void Update()
 		{
+		    if (Input.GetKey("escape"))
+				Application.Quit();
+
 			//Check that playersTurn or enemiesMoving or doingSetup are not currently true.
 			if(playersTurn || enemiesMoving || doingSetup)
 				
