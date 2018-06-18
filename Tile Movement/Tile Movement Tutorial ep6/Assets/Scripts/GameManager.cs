@@ -19,6 +19,7 @@ public class GameManager : MonoBehaviour
 	public int playerHP = 5;
 	private List<Enemy> enemies;							//List of all Enemy units, used to issue them move commands.
 	private bool enemiesMoving;								//Boolean to check if enemies are moving.
+    public bool stoneMoving = false;
 	private bool doingSetup = true;							//Boolean to check if we're setting up board, prevent Player from moving during setup.
 	//Awake is always called before any Start functions
 	void Awake()

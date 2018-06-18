@@ -130,6 +130,23 @@ public class UIManager : MonoBehaviour {
         spellPanel.ActiveToggles().FirstOrDefault<Toggle>().isOn = false;
     }
 
+    public void RemovedImbuement()
+    {
+        toggles[3].isOn = false;
+    }
+
+    public string GetActiveSpell()
+    {
+        for (int i = 0; i < 2; i++)
+        {
+            if (toggles[i].isOn)
+            {
+                return toggles[i].GetComponent<SpellButtonController>().GetSpellText();
+            }
+        }
+        return "10";
+    }
+
     public void spellToggleChanged(bool state, int toggle) {
         if (IgnoreEvent)
         {
