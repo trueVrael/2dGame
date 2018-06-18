@@ -104,7 +104,7 @@ public class Player : MovingObject
                 case "d": rotation.eulerAngles = new Vector3(0, 0, 270); position = new Vector3(position.x + 1, position.y, position.z); break;
             }
             direction = "no_direction";
-           UseSpell(position, rotation);
+           if(spellName!="10")UseSpell(position, rotation);
         }
 
 
@@ -191,7 +191,15 @@ public class Player : MovingObject
 				//Invoke the Restart function to start the next level with a delay of restartLevelDelay (default 1 second).
 				Invoke ("Restart", restartLevelDelay);
 			}
-		}
+        if (other.tag == "Reload")
+        {
+            GameManager.instance.level--;
+            GameManager.instance.playersTurn = false;
+            enabled = false;
+            //Invoke the Restart function to start the next level with a delay of restartLevelDelay (default 1 second).
+            Invoke("Restart", restartLevelDelay);
+        }
+    }
 		
 		
 		//Restart reloads the scene when called.

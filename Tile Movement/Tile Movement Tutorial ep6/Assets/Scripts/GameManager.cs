@@ -155,13 +155,19 @@ public class GameManager : MonoBehaviour
 			levelImage.SetActive(true);
 			//disable player
 			player = GameObject.Find("Player");
-			//gameObject.SetActive(false);
-			if(l == 2){
+        //gameObject.SetActive(false);
+            if (l == 2)
+            {
+                player.transform.position = new Vector2(1.5f, 2.5f);
+                player_sc.x = 1;
+                player_sc.y = 3;
+            }
+			if(l == 3){
 				player.transform.position = new Vector2(1.5f,0.5f);
 				player_sc.x = (int)player.transform.position.x;
 				player_sc.y = 1;
 			}
-			else if(l == 3){
+			else if(l == 4){
 				player.transform.position = new Vector2(-2.5f,2.5f);
 				player_sc.x = -2;
 				player_sc.y = 3;

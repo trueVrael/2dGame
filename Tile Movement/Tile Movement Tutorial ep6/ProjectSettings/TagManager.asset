@@ -12,6 +12,7 @@ TagManager:
   - Icon
   - Direction
   - Canvas
+  - Reload
   layers:
   - Default
   - TransparentFX
