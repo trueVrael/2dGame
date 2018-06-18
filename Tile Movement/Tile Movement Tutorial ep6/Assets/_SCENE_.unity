@@ -4266,12 +4266,14 @@ MonoBehaviour:
   PreviousPageButton: {fileID: 2130893424}
   NextPageButton: {fileID: 1259621699}
   DescriptionForSpells:
-  - Hurls a fireball until it collides
+  - Hurls a fireball that deals damage when it collides
   - Casts a ray of thunder in front of the caster
   - 'Hurls an iceball that freezes it''s target and eveything thats behind it
 
     Deals less damage'
-  - 
+  - 'Imbues your weapon with fire
+
+    Deals double damage on next attack'
 --- !u!114 &1663559161
 MonoBehaviour:
   m_ObjectHideFlags: 0
