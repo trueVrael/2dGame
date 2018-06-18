@@ -74,7 +74,7 @@ public class Player : MovingObject
         Debug.Log(spellName);
         Debug.Log(spellUsed);
 			//If it's not the player's turn, exit the function.
-			if(!GameManager.instance.playersTurn) return;
+			if(!GameManager.instance.playersTurn || GameManager.instance.stoneMoving) return;
 			int horizontal = 0;  	//Used to store the horizontal move direction.
 			int vertical = 0;       //Used to store the vertical move direction.
 			
@@ -260,6 +260,7 @@ public class Player : MovingObject
                 case "Thunder": Thunder(spellTransformPosition); break;
                 case "IceBall": IceBall(spellTransformPosition, spellTransformRotation); break;
                 case "FireWeapon": FireImbue(); break;
+                default: this.spellUsed = false; break;
             }
         GameManager.instance.playersTurn = false;
         }
