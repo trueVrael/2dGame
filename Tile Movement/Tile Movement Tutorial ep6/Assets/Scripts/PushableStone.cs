@@ -30,16 +30,17 @@ public class PushableStone : MovingObject {
             float playermt = playercomp.moveTime;
             playercomp.SetMoveTime(moveTime);
             GameManager.instance.stoneMoving = true;
-            StartCoroutine(playercomp.SmoothMovement(playerPos + delta, () => PushEnd(playermt)));
+            StartCoroutine(playercomp.SmoothMovement(playerPos + delta, () => StartCoroutine( PushEnd(playermt))));
             return true;
         }
         return false;
         
     }
 
-    public void PushEnd(float playerMoveTime)
+    IEnumerator PushEnd(float playerMoveTime)
     {
         GameObject.FindGameObjectWithTag("Player").GetComponent<Player>().SetMoveTime(playerMoveTime);
+        yield return new WaitForSeconds(0.1f);
         GameManager.instance.stoneMoving = false;
     }
 }
