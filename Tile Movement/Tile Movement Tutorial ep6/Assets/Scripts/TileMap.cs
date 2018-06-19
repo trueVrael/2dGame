@@ -129,6 +129,19 @@ public class TileMap : MonoBehaviour {
 			Vector3 pos4 = new Vector3(11.5f,13.5f,0);
 			Instantiate(enemyTiles[0], pos4, Quaternion.identity);
 		}
+        else if(GameManager.instance.level == 5){
+            Vector3 pos = new Vector3(1.5f, 4.5f, 0);
+			Instantiate(enemyTiles[0], pos, Quaternion.identity);
+            Vector3 pos2 = new Vector3(1.5f, 6.5f, 0);
+			Instantiate(enemyTiles[0], pos2, Quaternion.identity);
+            Vector3 pos3 = new Vector3(-3.5f, 4.5f, 0);
+			Instantiate(enemyTiles[0], pos3, Quaternion.identity);
+            Vector3 pos4 = new Vector3(-3.5f, 9.5f, 0);
+			Instantiate(enemyTiles[0], pos4, Quaternion.identity);
+            Vector3 pos5 = new Vector3(4.5f, 8.5f, 0);
+			Instantiate(enemyTiles[0], pos5, Quaternion.identity);
+
+        }
 	}
 
 	public float CostToEnterTile(int sourceX, int sourceY, int targetX, int targetY) {
