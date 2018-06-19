@@ -12,6 +12,8 @@ public class SpellBookController : MonoBehaviour
 
     private int CurrentPage;
     private List<int> spells = new List<int>();
+    [TextArea]
+    public string[] DescriptionForSpells;
 
     // Use this for initialization
     void Start()
@@ -37,15 +39,16 @@ public class SpellBookController : MonoBehaviour
         {
             if (spells.Count > CurrentPage * 2 + i)
             {
+                int spellOnPage = spells[CurrentPage * 2 + i];
                 Image spellImage = SpellInfoPanels[i].GetComponentInChildren<Image>();
-                spellImage.sprite = player.Spells[spells[CurrentPage * 2 + i]].GetComponentInChildren<SpriteRenderer>().sprite;
+                spellImage.sprite = player.Spells[spellOnPage].GetComponentInChildren<SpriteRenderer>().sprite;
                 spellImage.preserveAspect = true;
                 Color color = spellImage.color;
                 color.a = 1;
                 spellImage.color = color;
 
                 Text spellText = SpellInfoPanels[i].GetComponentInChildren<Text>();
-                spellText.text = "Here should go spell text\nAnd some description";
+                spellText.text = DescriptionForSpells[spellOnPage];
             }
             else
             {

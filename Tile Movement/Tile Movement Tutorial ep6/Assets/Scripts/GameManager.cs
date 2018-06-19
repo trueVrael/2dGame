@@ -19,6 +19,7 @@ public class GameManager : MonoBehaviour
 	public int playerHP = 5;
 	private List<Enemy> enemies;							//List of all Enemy units, used to issue them move commands.
 	private bool enemiesMoving;								//Boolean to check if enemies are moving.
+    public bool stoneMoving = false;
 	private bool doingSetup = true;							//Boolean to check if we're setting up board, prevent Player from moving during setup.
 	//Awake is always called before any Start functions
 	void Awake()
@@ -158,28 +159,36 @@ public class GameManager : MonoBehaviour
 			levelImage.SetActive(true);
 			//disable player
 			player = GameObject.Find("Player");
-        //gameObject.SetActive(false);
+            //gameObject.SetActive(false);
             if (l == 2)
             {
                 player.transform.position = new Vector2(1.5f, 2.5f);
                 player_sc.x = 1;
                 player_sc.y = 3;
             }
-			else if(l == 3){
-				player.transform.position = new Vector2(1.5f,0.5f);
-				player_sc.x = (int)player.transform.position.x;
-				player_sc.y = 1;
-			}
-			else if(l == 4){
-				player.transform.position = new Vector2(-2.5f,2.5f);
-				player_sc.x = -2;
-				player_sc.y = 3;
-			}
+            else if (l == 3)
+            {
+                player.transform.position = new Vector2(1.5f, 0.5f);
+                player_sc.x = (int)player.transform.position.x;
+                player_sc.y = 1;
+            }
+            else if (l == 4)
+            {
+                player.transform.position = new Vector2(-2.5f, 2.5f);
+                player_sc.x = -2;
+                player_sc.y = 3;
+            }
             else if (l == 5)
             {
-            Canvas canvas = GameObject.FindGameObjectWithTag("Canvas").GetComponent<Canvas>();
-            canvas.enabled = false;
-            Invoke("Quit", 3.0F);
+                player.transform.position = new Vector2(0.5f, 1.5f);
+                player_sc.x = 0;
+                player_sc.y = 1;
+            }
+            else if (l == 6)
+            {
+                Canvas canvas = GameObject.FindGameObjectWithTag("Canvas").GetComponent<Canvas>();
+                canvas.enabled = false;
+                Invoke("Quit", 3.0F);
             }
 			//Disable this GameManager.
 			enabled = false;

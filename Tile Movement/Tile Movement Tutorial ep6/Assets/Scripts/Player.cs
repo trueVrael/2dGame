@@ -24,6 +24,7 @@ public class Player : MovingObject
         public GameObject tileCollider;
         public int x,y;	
 		public int dmg;
+        private bool isImbued;
         public Transform[] spellSpawn;
         public Transform[] SpellsIconsLocation;
         public GameObject[] SpellsIcons;
@@ -73,7 +74,7 @@ public class Player : MovingObject
         Debug.Log(spellName);
         Debug.Log(spellUsed);
 			//If it's not the player's turn, exit the function.
-			if(!GameManager.instance.playersTurn) return;
+			if(!GameManager.instance.playersTurn || GameManager.instance.stoneMoving) return;
 			int horizontal = 0;  	//Used to store the horizontal move direction.
 			int vertical = 0;       //Used to store the vertical move direction.
 			
@@ -92,6 +93,7 @@ public class Player : MovingObject
         if (Input.GetKeyDown("s")) direction = "s";
         if (Input.GetKeyDown("a")) direction = "a";
         if (Input.GetKeyDown("d")) direction = "d";
+        if (spellName == "FireWeapon") direction = "d"; 
         if (direction=="w" || direction == "s" || direction == "a" || direction == "d")
         {
             Vector3 position = new Vector3(this.gameObject.GetComponent<Transform>().position.x, this.gameObject.GetComponent<Transform>().position.y, this.gameObject.GetComponent<Transform>().position.z);
@@ -104,7 +106,7 @@ public class Player : MovingObject
                 case "d": rotation.eulerAngles = new Vector3(0, 0, 270); position = new Vector3(position.x + 1, position.y, position.z); break;
             }
             direction = "no_direction";
-           if(spellName!="10")UseSpell(position, rotation);
+           if(spellName!="10" || spellName == "FireWeapon")UseSpell(position, rotation);
         }
 
 
@@ -171,8 +173,18 @@ public class Player : MovingObject
                 //Set hitEnemy to equal the component passed in as a parameter.
                 Enemy hitEnemy = component.GetComponent<Enemy>();
 
-                //Call the DamageWall function of the Wall we are hitting.
-                hitEnemy.LoseHP(dmg);
+            //Call the DamageWall function of the Wall we are hitting.
+                if (isImbued)
+                {
+                    hitEnemy.LoseHP(dmg * 2);
+                    isImbued = false;
+                    Destroy(this.transform.Find(Spells[3].name).gameObject);
+                    UIManager.RemovedImbuement();
+                }
+                else
+                {
+                    hitEnemy.LoseHP(dmg);
+                }
 
                 //Set the attack trigger of the player's animation controller in order to play the player's attack animation.
                 animator.SetTrigger("playerHit");
@@ -247,6 +259,8 @@ public class Player : MovingObject
                 case "FireBall": FireBall(spellTransformPosition, spellTransformRotation); break;
                 case "Thunder": Thunder(spellTransformPosition); break;
                 case "IceBall": IceBall(spellTransformPosition, spellTransformRotation); break;
+                case "FireWeapon": FireImbue(); break;
+                default: this.spellUsed = false; break;
             }
         GameManager.instance.playersTurn = false;
         }
@@ -294,6 +308,18 @@ public class Player : MovingObject
             {
                 Instantiate(Spells[2], spellTransformPosition, spellTransformRotation);
             }
+        }
+
+        public void FireImbue()
+        {
+            if (this.avaibleSpells[3] && !isImbued)
+            {
+                GameObject we = Instantiate(Spells[3], this.transform);
+                we.name = Spells[3].name;
+                isImbued = true;
+                this.spellUsed = false;
+            }
+            spellName = UIManager.GetActiveSpell();
         }
     /*
     private void OnMouseDown()
