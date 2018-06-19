@@ -220,12 +220,11 @@ public class GameManager : MonoBehaviour
             {
                 enemies[i].turnFrozen++;
             }
-
-            //Wait for Enemy's moveTime before moving next Enemy, 
-            yield return new WaitForSeconds(enemies[i].moveTime);
+            yield return new WaitForSeconds(0.01F);
 			}
-			//Once Enemies are done moving, set playersTurn to true so player can move.
-			playersTurn = true;
+        //Once Enemies are done moving, set playersTurn to true so player can move.
+            yield return new WaitForSeconds(0.1F);
+            playersTurn = true;
 			
 			//Enemies are done moving, set enemiesMoving to false.
 			enemiesMoving = false;
