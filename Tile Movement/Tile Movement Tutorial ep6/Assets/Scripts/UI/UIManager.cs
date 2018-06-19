@@ -83,6 +83,7 @@ public class UIManager : MonoBehaviour {
             {
                 if (Player.avaibleSpells[i])
                 {
+                    if (i == 3 && toggles[i].isOn) continue;
                     toggles[i].isOn = !toggles[i].isOn;
                 }
             }
