@@ -142,6 +142,17 @@ public class TileMap : MonoBehaviour {
             Vector3 pos5 = new Vector3(4.5f, 8.5f, 0);
 			Instantiate(enemyTiles[0], pos5, Quaternion.identity);
         }
+        else if(GameManager.instance.level==6)
+        {
+            GameObject[] enemiesSpawn = GameObject.FindGameObjectsWithTag("EnemySpawner");
+            int enemiesCount = enemiesSpawn.Length;
+            for(int i=0; i<enemiesCount; i++)
+            {
+                Vector3 pos = new Vector3(enemiesSpawn[i].transform.position.x, enemiesSpawn[i].transform.position.y, 0);
+                Instantiate(enemyTiles[0], pos, Quaternion.identity);
+                Destroy(enemiesSpawn[i]);
+            }
+        }
 	}
 
 	public float CostToEnterTile(int sourceX, int sourceY, int targetX, int targetY) {

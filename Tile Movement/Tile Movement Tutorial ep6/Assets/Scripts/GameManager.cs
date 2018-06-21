@@ -184,7 +184,13 @@ public class GameManager : MonoBehaviour
                 player_sc.x = 0;
                 player_sc.y = 1;
             }
-            else if (l == 6)
+            else if(l==6)
+            {
+                player.transform.position = new Vector2(-6.5f, -1.5f);
+                player_sc.x = -6;
+                player_sc.y = -1;
+            }
+            else if (l == 7)
             {
                 Canvas canvas = GameObject.FindGameObjectWithTag("Canvas").GetComponent<Canvas>();
                 canvas.enabled = false;
@@ -229,7 +235,6 @@ public class GameManager : MonoBehaviour
             {
                 enemies[i].turnFrozen++;
             }
-            yield return new WaitForSeconds(0.01F);
 			}
         //Once Enemies are done moving, set playersTurn to true so player can move.
             yield return new WaitForSeconds(0.1F);

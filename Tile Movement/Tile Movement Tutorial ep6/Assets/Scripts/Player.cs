@@ -317,8 +317,8 @@ public class Player : MovingObject
                 GameObject we = Instantiate(Spells[3], this.transform);
                 we.name = Spells[3].name;
                 isImbued = true;
+                this.spellUsed = false;
             }
-            this.spellUsed = false;
             spellName = UIManager.GetActiveSpell();
         }
     /*
