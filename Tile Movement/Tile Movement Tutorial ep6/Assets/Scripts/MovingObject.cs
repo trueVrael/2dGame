@@ -64,8 +64,8 @@ public abstract class MovingObject : MonoBehaviour
 			if(hit.transform == null)
 			{
 				Debug.Log("can move");
-				//If nothing was hit, start SmoothMovement co-routine passing in the Vector2 end as destination
-				StartCoroutine (SmoothMovement (end));
+                //If nothing was hit, start SmoothMovement co-routine passing in the Vector2 end as destination
+                StartSmoothMovement(end);
 				//Return true to say that Move was successful
 				return true;
 			}
@@ -74,9 +74,16 @@ public abstract class MovingObject : MonoBehaviour
 			return false;
 		}
 		
+        public void StartSmoothMovement(Vector3 end, Action movementended = null)
+        {
+            BoxCollider2D collider = GetComponent<BoxCollider2D>();
+            Vector2 offset = end - this.transform.position;
+            collider.offset = offset;
+            StartCoroutine(SmoothMovement(end, movementended));
+        }
 		
 		//Co-routine for moving units from one space to next, takes a parameter end to specify where to move to.
-		public IEnumerator SmoothMovement (Vector3 end, Action movementEnded = null)
+		private IEnumerator SmoothMovement (Vector3 end, Action movementEnded = null)
 		{
 			//Calculate the remaining distance to move based on the square magnitude of the difference between current position and end parameter. 
 			//Square magnitude is used instead of magnitude because it's computationally cheaper.
@@ -89,6 +96,10 @@ public abstract class MovingObject : MonoBehaviour
 				
 				//Call MovePosition on attached Rigidbody2D and move it to the calculated position.
 				rb2D.MovePosition (newPostion);
+
+                // Move the BoxColliderOffset to the correct position
+                Vector2 offset = end - newPostion;
+                GetComponent<BoxCollider2D>().offset = offset;
 
 				//Recalculate the remaining distance after moving.
 				sqrRemainingDistance = (transform.position - end).sqrMagnitude;
