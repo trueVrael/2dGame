@@ -154,7 +154,7 @@ public class GameManager : MonoBehaviour
 			int l = instance.level+1;
 			string scene = "Level"+l;
 			//Set levelText to display number of levels passed and game over message
-			if(l!=5)levelText.text = "Level "+l;
+			levelText.text = "Level "+l;
 			//Enable black background image gameObject.
 			levelImage.SetActive(true);
 			//disable player
@@ -190,11 +190,16 @@ public class GameManager : MonoBehaviour
                 player_sc.x = -6;
                 player_sc.y = -1;
             }
-            else if (l == 7)
+            else if(l==7)
+            {
+            player.transform.position = new Vector2(5.5f, 20.5f);
+            player_sc.x = 5;
+            player_sc.y = 20;
+        }
+            else if (l == 8)
             {
                 Canvas canvas = GameObject.FindGameObjectWithTag("Canvas").GetComponent<Canvas>();
                 canvas.enabled = false;
-                Invoke("Quit", 3.0F);
             }
 			//Disable this GameManager.
 			enabled = false;

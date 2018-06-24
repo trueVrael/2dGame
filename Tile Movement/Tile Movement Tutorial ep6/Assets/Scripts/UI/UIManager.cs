@@ -166,7 +166,7 @@ public class UIManager : MonoBehaviour {
         else
         {
             Debug.Log("Spell was unselected: " + spellText);
-            Player.CheckDirection("10");
+            if(spellText != "FireWeapon")Player.CheckDirection("10");
         }
     }
 }
