@@ -146,7 +146,7 @@ public class TileMap : MonoBehaviour {
             Vector3 pos5 = new Vector3(4.5f, 8.5f, 0);
 			Instantiate(enemyTiles[0], pos5, Quaternion.identity);
         }
-        else if(GameManager.instance.level==6)
+        else if(GameManager.instance.level==6 || GameManager.instance.level == 7)
         {
             GameObject[] enemiesSpawn = GameObject.FindGameObjectsWithTag("EnemySpawner");
             int enemiesCount = enemiesSpawn.Length;

@@ -127,6 +127,9 @@ MonoBehaviour:
   hp: 0
   x: 0
   y: 0
+  frozen: 0
+  iceWall: {fileID: 0}
+  turnFrozen: 0
 --- !u!212 &212917254283703706
 SpriteRenderer:
   m_ObjectHideFlags: 1

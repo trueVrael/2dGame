@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour
 	private GameObject player;
 	public int level = 1;									//Current level number.
 	public int playerHP = 5;
+    private UIManager uiManager;
 	private List<Enemy> enemies;							//List of all Enemy units, used to issue them move commands.
 	private bool enemiesMoving;								//Boolean to check if enemies are moving.
     public bool stoneMoving = false;
@@ -24,6 +25,7 @@ public class GameManager : MonoBehaviour
 	//Awake is always called before any Start functions
 	void Awake()
 	{
+           uiManager = GameObject.FindGameObjectWithTag("Canvas").GetComponent<UIManager>();
            //Check if instance already exists
            if (instance == null)
 
@@ -151,12 +153,17 @@ public class GameManager : MonoBehaviour
 			int l = instance.level+1;
 			string scene = "Level"+l;
 			//Set levelText to display number of levels passed and game over message
-			if(l!=5)levelText.text = "Level "+l;
+			levelText.text = "Level "+l;
 			//Enable black background image gameObject.
 			levelImage.SetActive(true);
 			//disable player
 			player = GameObject.Find("Player");
             //gameObject.SetActive(false);
+            for(int i=0; i<3; i++)
+            {
+            player_sc.numberOfKeys[i] = 0;
+            }
+            uiManager.UpdateKeys();
             if (l == 2)
             {
                 player.transform.position = new Vector2(1.5f, 2.5f);
@@ -187,11 +194,16 @@ public class GameManager : MonoBehaviour
                 player_sc.x = -6;
                 player_sc.y = -1;
             }
-            else if (l == 7)
+            else if(l==7)
+            {
+            player.transform.position = new Vector2(5.5f, 20.5f);
+            player_sc.x = 5;
+            player_sc.y = 20;
+        }
+            else if (l == 8)
             {
                 Canvas canvas = GameObject.FindGameObjectWithTag("Canvas").GetComponent<Canvas>();
                 canvas.enabled = false;
-                Invoke("Quit", 3.0F);
             }
 			//Disable this GameManager.
 			enabled = false;

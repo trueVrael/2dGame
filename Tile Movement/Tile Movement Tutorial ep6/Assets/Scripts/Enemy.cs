@@ -114,6 +114,8 @@ public class Enemy : MovingObject {
 			Debug.Log("Enemy killed");
 					//Call this to remove Enemies from the list.
 			GameManager.instance.RemoveEnemyFromList(this);
+            AudioSource death = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Loader>().enemyDeath;
+            death.Play();
 			Destroy(this.gameObject);
 		}
 	}
