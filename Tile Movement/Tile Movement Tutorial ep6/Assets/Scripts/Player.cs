@@ -22,6 +22,7 @@ public class Player : MovingObject
         private Collider2D spellCollider;
         private SpriteRenderer spellSprite;
         public GameObject tileCollider;
+        public AudioSource[] spellAudio;
         public int x,y;	
 		public int dmg;
         private bool isImbued;
@@ -271,6 +272,7 @@ public class Player : MovingObject
             if (this.avaibleSpells[0] == true)
             {
                 Instantiate(Spells[0], spellTransformPosition, spellTransformRotation);
+                spellAudio[0].Play();
             }
         }
 
@@ -278,6 +280,7 @@ public class Player : MovingObject
         {
             GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
             int count = enemies.Length;
+            spellAudio[1].Play();
             for (int i = 0; i < count; i++)
             {
                 if ((enemies[i].transform.position.x - spellTransformPosition.x) * (enemies[i].transform.position.x - spellTransformPosition.x) <= 1 && (enemies[i].transform.position.y - spellTransformPosition.y) * (enemies[i].transform.position.y - spellTransformPosition.y) <= 1)
@@ -314,6 +317,7 @@ public class Player : MovingObject
         {
             if (this.avaibleSpells[3] && !isImbued)
             {
+                spellAudio[2].Play();
                 GameObject we = Instantiate(Spells[3], this.transform);
                 we.name = Spells[3].name;
                 isImbued = true;
