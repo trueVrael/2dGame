@@ -905,6 +905,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameManager: {fileID: 1826819063714776, guid: a6ab43bbe7929114c8d2086e98c11470,
     type: 2}
+  enemyDeath: {fileID: 0}
 --- !u!81 &865429696
 AudioListener:
   m_ObjectHideFlags: 0
@@ -1038,7 +1039,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &970187987
 MonoBehaviour:
   m_ObjectHideFlags: 0
