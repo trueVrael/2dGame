@@ -230,7 +230,6 @@ public class GameManager : MonoBehaviour
 			//Loop through List of Enemy objects.
 			for (int i = 0; i < enemies.Count; i++)
 			{
-			yield return new WaitForSeconds(0.1F);
             //Call the MoveEnemy function of Enemy at index i in the enemies List.
             if (enemies[i].turnFrozen > 4)
             {
@@ -247,7 +246,7 @@ public class GameManager : MonoBehaviour
             }
 			}
         //Once Enemies are done moving, set playersTurn to true so player can move.
-            yield return new WaitForSeconds(0.01F);
+            yield return new WaitForSeconds(0.1F);
             playersTurn = true;
 			
 			//Enemies are done moving, set enemiesMoving to false.
