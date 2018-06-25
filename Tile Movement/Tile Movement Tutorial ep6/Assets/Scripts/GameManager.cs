@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour
 	private GameObject player;
 	public int level = 1;									//Current level number.
 	public int playerHP = 5;
+    private UIManager uiManager;
 	private List<Enemy> enemies;							//List of all Enemy units, used to issue them move commands.
 	private bool enemiesMoving;								//Boolean to check if enemies are moving.
     public bool stoneMoving = false;
@@ -24,6 +25,7 @@ public class GameManager : MonoBehaviour
 	//Awake is always called before any Start functions
 	void Awake()
 	{
+           uiManager = GameObject.FindGameObjectWithTag("Canvas").GetComponent<UIManager>();
            //Check if instance already exists
            if (instance == null)
 
@@ -160,6 +162,11 @@ public class GameManager : MonoBehaviour
 			//disable player
 			player = GameObject.Find("Player");
             //gameObject.SetActive(false);
+            for(int i=0; i<3; i++)
+            {
+            player_sc.numberOfKeys[i] = 0;
+            }
+            uiManager.UpdateKeys();
             if (l == 2)
             {
                 player.transform.position = new Vector2(1.5f, 2.5f);
