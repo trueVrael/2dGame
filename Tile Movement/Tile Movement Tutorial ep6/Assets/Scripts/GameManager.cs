@@ -106,9 +106,6 @@ public class GameManager : MonoBehaviour
 		//Update is called every frame.
 		void Update()
 		{
-		    if (Input.GetKey("escape"))
-				Application.Quit();
-
 			//Check that playersTurn or enemiesMoving or doingSetup are not currently true.
 			if(playersTurn || enemiesMoving || doingSetup)
 				
@@ -221,6 +218,7 @@ public class GameManager : MonoBehaviour
 			//Loop through List of Enemy objects.
 			for (int i = 0; i < enemies.Count; i++)
 			{
+			yield return new WaitForSeconds(0.1F);
             //Call the MoveEnemy function of Enemy at index i in the enemies List.
             if (enemies[i].turnFrozen > 4)
             {
@@ -237,7 +235,7 @@ public class GameManager : MonoBehaviour
             }
 			}
         //Once Enemies are done moving, set playersTurn to true so player can move.
-            yield return new WaitForSeconds(0.1F);
+            yield return new WaitForSeconds(0.01F);
             playersTurn = true;
 			
 			//Enemies are done moving, set enemiesMoving to false.

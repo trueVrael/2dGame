@@ -106,9 +106,13 @@ public class TileMap : MonoBehaviour {
 
 
 			//enemies
-			Vector3 pos = new Vector3(9.5f, 3.5f, 0);
+		/*	Vector3 pos = new Vector3(9.5f, 3.5f, 0);
 			Instantiate(enemyTiles[0], pos, Quaternion.identity);
 			Vector3 pos2 = new Vector3(10.5f, 7.5f, 0);
+			Instantiate(enemyTiles[0], pos2, Quaternion.identity);*/
+			Vector3 pos = new Vector3(10.5f, 7.5f, 0);
+			Instantiate(enemyTiles[0], pos, Quaternion.identity);
+			Vector3 pos2 = new Vector3(9.5f, 8.5f, 0);
 			Instantiate(enemyTiles[0], pos2, Quaternion.identity);
 			//exit
 			Instantiate (exit, new Vector3 (9.5f, 9.5f, 0f), Quaternion.identity);
